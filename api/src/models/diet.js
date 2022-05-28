@@ -12,5 +12,9 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
     },
+    createdInDb: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },  
   });
 };
