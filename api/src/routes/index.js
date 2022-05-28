@@ -1,6 +1,5 @@
 const { Router } = require('express');
-require('dotenv').config();
-const axios = require('axios');
+
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
