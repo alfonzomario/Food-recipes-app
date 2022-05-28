@@ -18,12 +18,12 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     aggregateLikes: {
-      type: DataTypes.FLOAT
+      type: DataTypes.INTEGER
     },
     healthScore: {
       type: DataTypes.STRING
     },
-    instructions: {
+    steps: {
       type: DataTypes.TEXT
     },
     createdInDb: {

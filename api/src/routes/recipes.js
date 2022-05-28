@@ -27,14 +27,14 @@ router.post('/create', async (req, res)=>{
         summary,
         aggregateLikes,
         healthScore,
-        instructions,
+        steps,
             } = req.body
     const newRecipe = await Recipe.create({     
         title,
         summary,
         aggregateLikes,
         healthScore,
-        instructions,
+        steps,
     })
     res.send(newRecipe)
 })
