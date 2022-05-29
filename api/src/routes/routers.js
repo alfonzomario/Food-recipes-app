@@ -17,7 +17,7 @@ const getApiInfo = async () => {
             title: d.title,
             dishTypes: d.dishTypes,
             diet: d.diets,
-            summary: d.summary, // .replace(/<[^>]*>?/g, "") LO PROPONE MATI
+            summary: d.summary.replace(/<[^>]*>?/g, ""), //LO PROPONE MATI
             aggregateLikes: d.aggregateLikes,
             healthScore: d.healthScore,
             steps: d.analyzedInstructions[0]?.steps.map(s=>s.step) // POR QUE el Optional chaining ?. LO PROPONE MATI
@@ -29,46 +29,48 @@ const getApiInfo = async () => {
 const getDbInfo = async () => {
     return await Recipe.findAll({
         include:{
-            model: Diet,
-            attributes: ['name'],
-            through: {
-                attributes: [] // POR QUÉ? LO PROPONE SELENE
-            }
+            model: Diet
         }
     });
 };
 
 const getAllRecipes = async () =>{
-    const apiInfo = await getApiInfo();
     const dbInfo = await getDbInfo();
-    const totalInfo = apiInfo.concat(dbInfo);
+    const apiInfo = await getApiInfo();
+    const totalInfo = dbInfo.concat(apiInfo);
     return totalInfo;
 };
 
-router.get('/recipes/:idReceta', async (req, res, next)=>{
+router.get('/recipes', async (req, res, next)=>{
     const title = req.query.name;
-    const idReceta = req.params.idReceta;
     try{
         let totalRecipes = await getAllRecipes();
-        console.log(totalRecipes)
         if (title) {
-         let recipeTitle = await totalRecipes.filter(t => t.title.toLowerCase().includes(title.toLowerCase()))
-         recipeTitle.length ?
-         res.status(200).send(recipeTitle) :
-         res.status(404).send('No existe esta receta.')
+            let recipeTitle = await totalRecipes.filter(t => t.title.toLowerCase().includes(title.toLowerCase()))
+            recipeTitle.length ?
+            res.status(200).send(recipeTitle) :
+             res.status(404).send('No existe esta receta.')
      } 
-        if (idReceta) {
-         let recipeById = await totalRecipes.filter(t=> t.id == idReceta)
-         recipeById.length ?
-         res.status(200).send(recipeById) :
-         res.status(404).send('ID inexistente.')
-        }
      else{
         res.status(200).send(totalRecipes)
      }
     } catch (error){
-        res.send("Se te acabó la API KEY")
-        console.log(error)
+        next(error)
+    } 
+});
+
+router.get('/recipes/:idReceta', async (req, res, next)=>{
+    const idReceta = req.params.idReceta;
+    try{
+        if (idReceta) {
+            let totalRecipes = await getAllRecipes();
+            let recipeById = await totalRecipes.filter(t=> t.id == idReceta)
+            recipeById.length ?
+            res.status(200).send(recipeById) :
+            res.status(404).send('ID inexistente.')
+       }
+    } catch (error){
+        next(error)
     } 
 });
 
@@ -88,7 +90,8 @@ router.post('/recipe', async (req, res, next)=>{
        summary,
        aggregateLikes,
        healthScore,
-       steps
+       steps,
+       diet
            } = req.body
      const newRecipe = await Recipe.create({     
         title,
@@ -97,7 +100,8 @@ router.post('/recipe', async (req, res, next)=>{
         healthScore,
         steps
    })
-   res.send(newRecipe)
+    await newRecipe.addDiet(diet)
+    res.send(newRecipe)
     } catch (error){
         next(error)
     }
