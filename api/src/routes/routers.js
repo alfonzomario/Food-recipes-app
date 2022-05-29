@@ -17,10 +17,10 @@ const getApiInfo = async () => {
             title: d.title,
             dishTypes: d.dishTypes,
             diet: d.diets,
-            summary: d.summary, // .replace(/<[^>]*>?/g, "")
+            summary: d.summary, // .replace(/<[^>]*>?/g, "") LO PROPONE MATI
             aggregateLikes: d.aggregateLikes,
             healthScore: d.healthScore,
-            steps: d.analyzedInstructions[0]?.steps.map(s=>s.step) // POR QUE ESE SIGNO DE INTERROGACIÓN
+            steps: d.analyzedInstructions[0]?.steps.map(s=>s.step) // POR QUE el Optional chaining ?. LO PROPONE MATI
         };
     });
     return apiInfo;
@@ -32,7 +32,7 @@ const getDbInfo = async () => {
             model: Diet,
             attributes: ['name'],
             through: {
-                attributes: [] // POR QUÉ?
+                attributes: [] // POR QUÉ? LO PROPONE SELENE
             }
         }
     });
@@ -102,8 +102,5 @@ router.post('/recipe', async (req, res, next)=>{
         next(error)
     }
 })
-
-router.get('/recipes')
-
 
 module.exports = router;

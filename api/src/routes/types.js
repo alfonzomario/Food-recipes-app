@@ -8,10 +8,10 @@ const getAllDiets = async () =>{
     const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeInformation=true&number=100`);
     const typesDiets = apiUrl.data.results.map(d=>d.diets)
     const arr1 = typesDiets.flat()
-    const arr2 = new Set(arr1) // INVESTIGAR
-    const arr3 = [...arr2] // INVESTIGAR 
-    const arr4 = arr3.map(a=>{return {name: a}})
-    await Diet.bulkCreate(arr4) // INVESTIGAR
+    const obj1 = new Set(arr1)
+    const arr2 = [...obj1] // CÓMO OCURRE? 
+    const arr3 = arr2.map(a=>{return {name: a}})
+    await Diet.bulkCreate(arr3)
 };
 
 module.exports = {getAllDiets};
