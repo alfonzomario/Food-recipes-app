@@ -9,7 +9,12 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-const recipes = require('./recipes')
-router.use('/prueba', recipes)
+const rutas = require('./routers')
+router.use('/food', rutas)
+
+
+// PRUEBAS A LA API Y DB:
+const pruebas = require('./pruebas')
+router.use('/prueba', pruebas)
 
 module.exports = router;

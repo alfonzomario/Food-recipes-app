@@ -11,13 +11,13 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 router.get('/all', async (req, res)=>{
     const apiKey = process.env.YOUR_API_KEY;
-    const result = await axios.get (`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}`);
+    const result = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}`);
     res.send(result.data)
 })
 
 router.get('/info', async (req, res)=>{
     const apiKey = process.env.YOUR_API_KEY;
-    const result = await axios.get (`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeInformation=true`);
+    const result = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeInformation=true&number=2`);
     res.send(result.data)
 })
 
