@@ -16,7 +16,7 @@ const getApiInfo = async () => {
             image: d.image,
             title: d.title,
             dishTypes: d.dishTypes,
-            diet: d.diets,
+            diets: d.diets,
             summary: d.summary.replace(/<[^>]*>?/g, ""), //LO PROPONE MATI
             aggregateLikes: d.aggregateLikes,
             healthScore: d.healthScore,
@@ -91,7 +91,7 @@ router.post('/recipe', async (req, res, next)=>{
        aggregateLikes,
        healthScore,
        steps,
-       diet
+       diets
            } = req.body
      const newRecipe = await Recipe.create({     
         title,
@@ -100,7 +100,7 @@ router.post('/recipe', async (req, res, next)=>{
         healthScore,
         steps
    })
-    await newRecipe.addDiet(diet)
+    await newRecipe.addDiet(diets)
     res.send(newRecipe)
     } catch (error){
         next(error)
