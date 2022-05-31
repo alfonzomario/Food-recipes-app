@@ -20,18 +20,32 @@ const getApiInfo = async () => {
             summary: d.summary.replace(/<[^>]*>?/g, ""), //LO PROPONE MATI
             aggregateLikes: d.aggregateLikes,
             healthScore: d.healthScore,
-            steps: d.analyzedInstructions[0]?.steps.map(s=>s.step) // POR QUE el Optional chaining ?. LO PROPONE MATI
+            steps: d.analyzedInstructions[0]?.steps.map(s=>s.step).join(" ") // POR QUE el Optional chaining ?. LO PROPONE MATI
         };
     });
     return apiInfo;
 }
 
 const getDbInfo = async () => {
-    return await Recipe.findAll({
+    let db = await Recipe.findAll({
         include:{
-            model: Diet
+            model: Diet,
+            attributes: ['name']
         }
     });
+    const finalDb = db.map(d => {
+        return {
+            id: d.id,
+            title: d.title,
+            dishTypes: d.dishTypes,
+            diets: d.diets.map(d=>d.name),
+            summary: d.summary,
+            aggregateLikes: d.aggregateLikes,
+            healthScore: d.healthScore,
+            steps: d.steps
+        }
+    })
+    return finalDb
 };
 
 const getAllRecipes = async () =>{
@@ -100,7 +114,14 @@ router.post('/recipe', async (req, res, next)=>{
         healthScore,
         steps
    })
-    await newRecipe.addDiet(diets)
+    if(diets){
+        for(i=0; i < diets.length; i++){
+        const dbDiets = await Diet.findOne({
+            where: {name: diets[i]}
+        })
+        newRecipe.addDiet(dbDiets)
+    }
+   }
     res.send(newRecipe)
     } catch (error){
         next(error)
