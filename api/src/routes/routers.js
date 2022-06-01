@@ -17,10 +17,10 @@ const getApiInfo = async () => {
             title: d.title,
             dishTypes: d.dishTypes,
             diets: d.diets,
-            summary: d.summary.replace(/<[^>]*>?/g, ""), //LO PROPONE MATI
+            summary: d.summary.replace(/<\/?.*?>/g, ""), //https://programmerclick.com/article/8344579458/
             aggregateLikes: d.aggregateLikes,
             healthScore: d.healthScore,
-            steps: d.analyzedInstructions[0]?.steps.map(s=>s.step).join(" ") // POR QUE el Optional chaining ?. LO PROPONE MATI
+            steps: d.analyzedInstructions[0]?.steps.map(s=>s.step).join(" ") // ? Optional chaining es para mapear aunque haya arrays undefined
         };
     });
     return apiInfo;
