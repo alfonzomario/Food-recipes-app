@@ -4,10 +4,21 @@ import {useDispatch, useSelector} from 'react-redux'
 import {getRecipes} from '../actions';
 import {Link} from 'react-router-dom'
 import Recipe from './Recipe';
+import Paginado from './Paginado';
 
 export default function Home (){
     const dispatch = useDispatch()
     const allRecipes = useSelector ((state)=>state.recipes)
+
+    const [currentPage, setCurrentPAge] = useState(1)
+    const [recipesPerPage, setRecipesPerPage] = useState(9)
+    const indexOfLastRecipe = currentPage * recipesPerPage
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage
+    const currentRecipes = allRecipes.slice(indexOfFirstRecipe,indexOfLastRecipe)
+
+    const paginado=(pageNumber)=>{
+        setCurrentPAge(pageNumber)
+    }
 
     useEffect (()=>{
         dispatch(getRecipes());
@@ -46,8 +57,13 @@ export default function Home (){
                     <option value='dairy free'>Dairy Free</option>
                     <option value='fodmap friendly'>FODMAP Friendly</option>
                 </select>
+                <Paginado
+                    recipesPerPage={recipesPerPage}
+                    allRecipes={allRecipes.length}
+                    paginado={paginado}
+                />
                 {
-                   allRecipes?.map((r)=>{
+                   currentRecipes?.map((r)=>{
                        return (
                            <div>
                                <Link to={"/home/" + r.id}>
