@@ -5,12 +5,13 @@ import {getRecipes, filterRecipesByDiet, orderByOption} from '../actions';
 import {Link} from 'react-router-dom'
 import Recipe from './Recipe';
 import Paginado from './Paginado';
+import SearchBar from './SearchBar';
 
 export default function Home (){
     const dispatch = useDispatch()
     const allRecipes = useSelector ((state)=>state.recipes)
 
-    const [orden, setOrden]=useState('')
+    const [order, setOrder]=useState('')
 
     const [currentPage, setCurrentPAge] = useState(1)
     const [recipesPerPage, setRecipesPerPage] = useState(9)
@@ -40,12 +41,13 @@ export default function Home (){
         e.preventDefault();
         dispatch(orderByOption(e.target.value))
         setCurrentPAge(1)
-        setOrden(`Ordenado ${e.target.value}`)
+        setOrder(`Ordered by ${e.target.value}`)
     }
 //                        ALGUNA FORMA MEJOR PARA PONER EL ORDER BY?
+//                        QUÉ ES LO QUE HACE QUE SE RENDERICE DE VUELTA AL CAMBIAR UN ESTADO?
     return(
         <div>
-            <Link to='/new'>New recipe</Link>
+            <Link to='/recipe'>New recipe</Link>
             <h1>BEST RECIPES EVER!</h1>
             <button onClick={e=>{handleClick(e)}}>
                 Show all recipes
@@ -76,8 +78,9 @@ export default function Home (){
                     allRecipes={allRecipes.length}
                     paginado={paginado}
                 />
+                <SearchBar/>
                 {
-                   currentRecipes?.map((r)=>{
+                   currentRecipes?.map((r)=>{  // ese ?. qué hace?
                        return (
                            <div>
                                <Link to={"/home/" + r.id}>

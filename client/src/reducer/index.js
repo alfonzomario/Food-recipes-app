@@ -1,9 +1,10 @@
 
-import { GET_RECIPES, FILTER_BY_DIET, ORDER_BY_OPTION } from "../actions";
+import { GET_RECIPES, FILTER_BY_DIET, ORDER_BY_OPTION, GET_TITLE_RECIPES, POST_RECIPE, GET_DIETS } from "../actions";
 
 const initialState = {
     recipes: [],
-    allRecipes: []
+    allRecipes: [],
+    diets: []
 }
 
 function rootReducer (state=initialState, action){
@@ -14,21 +15,35 @@ function rootReducer (state=initialState, action){
                 recipes: action.payload,
                 allRecipes: action.payload  
             }
+        case GET_TITLE_RECIPES:
+            return{
+                ...state,
+                recipes: action.payload
+            }
+        case GET_DIETS:
+            return{
+                ...state,
+                diets: action.payload
+            }
         case FILTER_BY_DIET:
                 const allRecipes = state.allRecipes
                 const dietsFiltered = action.payload === 'all' ? allRecipes : allRecipes.filter(r=>r.diets.includes(action.payload))
-                return {
+                return{
                     ...state,
                     recipes: dietsFiltered
                 }
+        case POST_RECIPE:
+            return{
+                ...state,
+            }
         case ORDER_BY_OPTION:
             let sortedArr = action.payload
             if (sortedArr === 'az'){
                 state.recipes.sort(function(a,b){
-                    if(a.title>b.title){
+                    if(a.title.toUpperCase()>b.title.toUpperCase()){
                         return 1;
                     }
-                    if(b.title>a.title){
+                    if(b.title.toUpperCase()>a.title.toUpperCase()){
                         return-1;
                     }
                     return 0;
@@ -36,10 +51,10 @@ function rootReducer (state=initialState, action){
             }
             if (sortedArr === 'za'){
                 state.recipes.sort(function(a,b){
-                    if(a.title>b.title){
+                    if(a.title.toUpperCase()>b.title.toUpperCase()){
                         return -1;
                     }
-                    if(b.title>a.title){
+                    if(b.title.toUpperCase()>a.title.toUpperCase()){
                         return 1;
                     }
                     return 0;
@@ -68,8 +83,7 @@ function rootReducer (state=initialState, action){
                 })
             }
             return{
-                ...state,
-                characters: sortedArr
+                ...state,  // retorna el estado ya modificado por el sort?
             }
             
     
