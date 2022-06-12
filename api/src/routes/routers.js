@@ -1,7 +1,7 @@
 const { Router } = require('express');
 require('dotenv').config();
 const axios = require('axios');
-const { Recipe, Diet } = require('../db.js');
+const { Recipe, Diet, Dish } = require('../db.js');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -28,21 +28,27 @@ const getApiInfo = async () => {
 
 const getDbInfo = async () => {
     let db = await Recipe.findAll({
-        include:{
+        include:[{
             model: Diet,
             attributes: ['name']
+        },
+        {
+            model: Dish,
+            attributes: ['name']
         }
+        ]
     });
     const finalDb = db.map(d => {
         return {
             id: d.id,
             title: d.title,
-            dishTypes: d.dishTypes,
+            dishTypes: d.dishes.map(d=>d.name),
             diets: d.diets.map(d=>d.name),
             summary: d.summary,
             aggregateLikes: d.aggregateLikes,
             healthScore: d.healthScore,
-            steps: d.steps
+            steps: d.steps,
+            image: d.image
         }
     })
     return finalDb
@@ -97,6 +103,15 @@ router.get('/types', async (req, res, next)=>{
     }
 });
 
+router.get('/dishes', async (req, res, next)=>{
+    try{
+        const dishType = await Dish.findAll();
+        res.status(200).json(dishType)
+    } catch (error){
+        next(error)
+    }
+});
+
 router.post('/recipe', async (req, res, next)=>{
     try{
     const {
@@ -105,6 +120,8 @@ router.post('/recipe', async (req, res, next)=>{
        aggregateLikes,
        healthScore,
        steps,
+       image,
+       dishTypes,
        diets
            } = req.body
      const newRecipe = await Recipe.create({     
@@ -112,8 +129,17 @@ router.post('/recipe', async (req, res, next)=>{
         summary,
         aggregateLikes,
         healthScore,
-        steps
+        steps,
+        image
    })
+   if(dishTypes){
+    for(i=0; i < dishTypes.length; i++){
+    const dbDishes = await Dish.findOne({
+        where: {name: dishTypes[i]}
+    })
+    newRecipe.addDish(dbDishes)
+    }
+}
     if(diets){
         for(i=0; i < diets.length; i++){
         const dbDiets = await Diet.findOne({
@@ -121,7 +147,7 @@ router.post('/recipe', async (req, res, next)=>{
         })
         newRecipe.addDiet(dbDiets)
     }
-   }
+}
     res.send(newRecipe)
     } catch (error){
         next(error)
