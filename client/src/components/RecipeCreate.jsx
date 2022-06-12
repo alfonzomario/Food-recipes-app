@@ -1,12 +1,36 @@
 import React, {useState,useEffect} from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {postRecipe, getDiets} from '../actions';
+import {postRecipe, getDiets, getDishes} from '../actions';
 import { useDispatch, useSelector } from 'react-redux';
 
+function validate(input){
+    let errors={};
+    if (!input.title){
+        errors.title = "A title is required.";
+    } else if (!input.summary){
+        errors.summary = "A summary is required.";
+    } else if (!input.aggregateLikes){
+        errors.aggregateLikes = "A minimun of likes are required.";
+    } else if (!input.healthScore){
+        errors.healthScore = "A health score is required.";
+    } else if (!input.steps){
+        errors.steps = "Steps are required.";
+    } else if (!input.image){
+        errors.image = "A image's URL is required.";
+    } else if (!input.diets[0]){
+        errors.diets = "Types of diets are required.";
+    } else if (!input.dishTypes[0]){
+        errors.diets = "Types of dishes are required.";
+    }
+    return errors;
+};
+// NO PUSE DE LOS LIKES PORQUE NO LO VEO NECESARIO PERO ME GUSTARIA AGREGAR LIKES DE OTRA FORMA.
 export default function RecipeCreate(){
     const dispatch = useDispatch()
     const history = useHistory()
     const diets = useSelector((state)=>state.diets)
+    const dishTypes = useSelector((state)=>state.dishTypes)
+    const [errors, setErrors] = useState({}) // POR QUÉ OBJETO?
 
     const [input, setInput] = useState({
         title: "",
@@ -15,7 +39,8 @@ export default function RecipeCreate(){
         healthScore: "",
         steps: "",
         image: "",
-        diets:[]
+        diets:[],
+        dishTypes: []
     })
 
     function handleChange(e){
@@ -23,14 +48,47 @@ export default function RecipeCreate(){
             ...input,
             [e.target.name] : e.target.value
         })
+        setErrors(validate({
+            ...input,
+            [e.target.name] : e.target.value
+        }))
     }
 
     function handleSelect(e){
             setInput({
                 ...input,
-                diets: [...input.diets, e.target.value]
+                diets: [...input.diets, e.target.value],
             })
-        }
+        setErrors(validate({
+            ...input,
+            diets: [...input.diets, e.target.value],
+        }))
+    }
+
+    function handleSelect2(e){
+        setInput({
+            ...input,
+            dishTypes: [...input.dishTypes, e.target.value]
+        })
+    setErrors(validate({
+        ...input,
+        dishTypes: [...input.dishTypes, e.target.value]
+    }))
+}
+
+    function handleDelete(e){
+        setInput({
+            ...input,
+            diets: input.diets.filter(d => d !== e),
+        })
+    }
+
+    function handleDelete2(e){
+        setInput({
+            ...input,
+            dishTypes: input.dishTypes.filter(d => d !== e)
+        })
+    }
     
     function handleSubmit(e){
         e.preventDefault();
@@ -44,13 +102,18 @@ export default function RecipeCreate(){
             healthScore: "",
             steps: "",
             image: "",
-            diets:[]
+            diets:[],
+            dishTypes: []
         })
         history.push('/home')
     }
 
     useEffect(()=>{  // PARA QUÉ ES?
         dispatch(getDiets())
+    },[dispatch]);
+
+    useEffect(()=>{  // PARA QUÉ ES?
+        dispatch(getDishes())
     },[dispatch]);
 
     return(
@@ -66,6 +129,9 @@ export default function RecipeCreate(){
                     name= 'title'
                     onChange={(e)=>handleChange(e)}
                     ></input>
+                    {errors.title && (
+                        <p className='error'>{errors.title}</p>
+                    )}
                 </div>
                 <div>
                 <label>Summary:</label>
@@ -75,6 +141,9 @@ export default function RecipeCreate(){
                     name= 'summary'
                     onChange={(e)=>handleChange(e)}
                     ></input>
+                    {errors.summary && (
+                        <p className='error'>{errors.summary}</p>
+                    )}
                 </div>
                 <div>
                 <label>Aggregate Likes:</label>
@@ -84,6 +153,9 @@ export default function RecipeCreate(){
                     name= 'aggregateLikes'
                     onChange={(e)=>handleChange(e)}
                     ></input>
+                    {errors.aggregateLikes && (
+                        <p className='error'>{errors.aggregateLikes}</p>
+                    )}
                 </div>
                 <div>
                 <label>Health Score:</label>
@@ -93,6 +165,9 @@ export default function RecipeCreate(){
                     name= 'healthScore'
                     onChange={(e)=>handleChange(e)}
                     ></input>
+                    {errors.healthScore && (
+                        <p className='error'>{errors.healthScore}</p>
+                    )}
                 </div>
                 <div>
                 <label>Steps:</label>
@@ -102,6 +177,9 @@ export default function RecipeCreate(){
                     name= 'steps'
                     onChange={(e)=>handleChange(e)}
                     ></input>
+                    {errors.steps && (
+                        <p className='error'>{errors.steps}</p>
+                    )}
                 </div>
                 <div>
                 <label>Image:</label>
@@ -111,6 +189,9 @@ export default function RecipeCreate(){
                     name= 'image'
                     onChange={(e)=>handleChange(e)}
                     ></input>
+                    {errors.image && (
+                        <p className='error'>{errors.image}</p>
+                    )}
                 </div>
                 <div>Type of Diet:
                 <select onChange={(e)=>handleSelect(e)}>
@@ -118,10 +199,34 @@ export default function RecipeCreate(){
                         <option value={d.name}>{d.name.charAt(0).toUpperCase()+ d.name.slice(1)}</option>
                    ))}
                 </select>
-                <ul><li>{input.diets.map(d=>d.charAt(0).toUpperCase()+ d.slice(1)+", ")}</li></ul>
+                    {errors.diets && (
+                        <p className='error'>{errors.diets}</p>
+                    )}
+                </div>
+                <div>Dish types:
+                <select onChange={(e)=>handleSelect2(e)}>
+                    {dishTypes.map((d)=>(
+                        <option value={d.name}>{d.name.charAt(0).toUpperCase()+ d.name.slice(1)}</option>
+                   ))}
+                </select>
+                    {errors.dishTypes && (
+                        <p className='error'>{errors.dishTypes}</p>
+                    )}
                 </div>
                 <button type='submit'>Create</button>
             </form>
+            {input.diets.map(d=>
+                <div className='divDiets'>
+                    <p>{d.charAt(0).toUpperCase()+ d.slice(1)}</p>
+                    <button className='buttonX' onClick={()=>handleDelete(d)}>x</button>
+                </div>
+                )}
+            {input.dishTypes.map(d=>
+                <div className='divDishes'>
+                    <p>{d.charAt(0).toUpperCase()+ d.slice(1)}</p>
+                    <button className='buttonX' onClick={()=>handleDelete2(d)}>x</button>
+                </div>
+                )}
         </div>
     )
 }

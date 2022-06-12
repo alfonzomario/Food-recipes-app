@@ -6,6 +6,8 @@ export const ORDER_BY_OPTION = 'ORDER_BY_OPTION'
 export const GET_TITLE_RECIPES = 'GET_TITLE_RECIPES'
 export const GET_DIETS = 'GET_DIETS'
 export const POST_RECIPE = 'POST_RECIPE'
+export const GET_DETAIL = 'GET_DETAIL'
+export const GET_DISHES = 'GET_DISHES'
 
 export function getRecipes(){
     return async function(dispatch){
@@ -25,7 +27,7 @@ export function getTitleRecipes(title){
                 payload: json.data
             })
         } catch (error){
-            console.log(error)
+            console.log(error)  // POR QUÉ EN ALGUNOS CASOS ME PIDE HACER CATCH ERROR?
         }
     }
 }
@@ -34,6 +36,15 @@ export function getDiets(){
         var json = await axios.get("http://localhost:3001/food/types")
         return dispatch({
             type: 'GET_DIETS',
+            payload: json.data
+        })
+    }
+}
+export function getDishes(){
+    return async function (dispatch) {
+        var json = await axios.get("http://localhost:3001/food/dishes")
+        return dispatch({
+            type: 'GET_DISHES',
             payload: json.data
         })
     }
@@ -55,4 +66,17 @@ export function orderByOption(payload){
         type: 'ORDER_BY_OPTION',
         payload
     }
+}
+export function getDetail(id){
+    return async function (dispatch){
+        try{
+            var json = await axios.get("http://localhost:3001/food/recipes/"+id);
+            return dispatch({
+                type: 'GET_DETAIL',
+                payload: json.data
+            })
+        } catch(error){
+            console.log(error)
+        }
+    } 
 }

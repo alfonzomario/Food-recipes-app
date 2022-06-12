@@ -1,10 +1,12 @@
 
-import { GET_RECIPES, FILTER_BY_DIET, ORDER_BY_OPTION, GET_TITLE_RECIPES, POST_RECIPE, GET_DIETS } from "../actions";
+import { GET_RECIPES, FILTER_BY_DIET, ORDER_BY_OPTION, GET_TITLE_RECIPES, POST_RECIPE, GET_DIETS, GET_DETAIL, GET_DISHES } from "../actions";
 
 const initialState = {
     recipes: [],
     allRecipes: [],
-    diets: []
+    diets: [],
+    detail: [],
+    dishTypes: []
 }
 
 function rootReducer (state=initialState, action){
@@ -24,6 +26,11 @@ function rootReducer (state=initialState, action){
             return{
                 ...state,
                 diets: action.payload
+            }
+        case GET_DISHES:
+            return{
+                ...state,
+                dishTypes: action.payload
             }
         case FILTER_BY_DIET:
                 const allRecipes = state.allRecipes
@@ -85,7 +92,11 @@ function rootReducer (state=initialState, action){
             return{
                 ...state,  // retorna el estado ya modificado por el sort?
             }
-            
+            case GET_DETAIL:
+                return{
+                    ...state,
+                    detail: action.payload
+                }
     
             default:
                 return state;
