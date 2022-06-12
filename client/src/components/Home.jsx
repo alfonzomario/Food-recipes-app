@@ -14,7 +14,7 @@ export default function Home (){
     const [order, setOrder]=useState('')
 
     const [currentPage, setCurrentPAge] = useState(1)
-    const [recipesPerPage, setRecipesPerPage] = useState(9)
+    const [recipesPerPage, setRecipesPerPage] = useState(9) // QUÉ HAGO CON LOS QUE NO ESTÁN EN USO?
     const indexOfLastRecipe = currentPage * recipesPerPage
     const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage
     const currentRecipes = allRecipes.slice(indexOfFirstRecipe,indexOfLastRecipe)
@@ -53,8 +53,7 @@ export default function Home (){
                 Show all recipes
             </button>
             <div>
-                <select onChange={e=>handleSort(e)}>
-                    <option>Order by</option>
+                <select placeholder="Order by" onChange={e=>handleSort(e)}>
                     <option value='az'>A-Z</option>
                     <option value='za'>Z-A</option>
                     <option value='hscore'>High Score</option>
@@ -78,8 +77,10 @@ export default function Home (){
                     allRecipes={allRecipes.length}
                     paginado={paginado}
                 />
-                <SearchBar/>
-                {
+                <SearchBar
+                    paginado={paginado}
+                />
+                { allRecipes==="unfinded"? <p>No existe esta receta.</p> :
                    currentRecipes?.map((r)=>{  // ese ?. qué hace?
                        return (
                            <div>

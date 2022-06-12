@@ -18,7 +18,7 @@ function rootReducer (state=initialState, action){
                 allRecipes: action.payload  
             }
         case GET_TITLE_RECIPES:
-            return{
+        return{
                 ...state,
                 recipes: action.payload
             }

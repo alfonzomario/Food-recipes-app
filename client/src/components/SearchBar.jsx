@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getTitleRecipes } from '../actions';
 
-export default function SearchBar(){
+export default function SearchBar({paginado}){
 const dispatch = useDispatch() // para qué es
 const [title, setTitle] = useState("")
 
@@ -14,7 +14,9 @@ function handleInputChange(e){
 
 function handleSubmit(e){
     e.preventDefault()
-    dispatch(getTitleRecipes(title)) // CÓMO HACER SI NO ENCUENTRA UN TITULO
+    dispatch(getTitleRecipes(title))
+    setTitle("")
+    paginado(1) 
 }
 
 return (
@@ -22,6 +24,7 @@ return (
         <input
         type= 'text'
         placeholder = "Search..."
+        value = {title}
         onChange={(e)=> handleInputChange(e)}/>
         <button type='submit' onClick={(e)=>handleSubmit(e)}>Search</button>
     </div>

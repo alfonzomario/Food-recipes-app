@@ -9,8 +9,7 @@ export default function Paginado ({recipesPerPage, allRecipes, paginado}){
     return(
         <nav>
             <ul className='paginado'>
-                {pageNumbers &&                 // cómo se lee este código?
-                pageNumbers.map(number=>(
+                {pageNumbers && pageNumbers.length>1 && pageNumbers.map(number=>(
                     <li className='number' key={number}>
                         <a onClick={()=> paginado(number)}>{number}</a>
                     </li>

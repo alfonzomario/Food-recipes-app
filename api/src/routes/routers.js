@@ -69,7 +69,7 @@ router.get('/recipes', async (req, res, next)=>{
             let recipeTitle = await totalRecipes.filter(t => t.title.toLowerCase().includes(title.toLowerCase()))
             recipeTitle.length ?
             res.status(200).send(recipeTitle) :
-             res.status(404).send('No existe esta receta.')
+             res.status(200).send('unfinded')
      } 
      else{
         res.status(200).send(totalRecipes)
@@ -87,7 +87,7 @@ router.get('/recipes/:idReceta', async (req, res, next)=>{
             let recipeById = await totalRecipes.filter(t=> t.id == idReceta)
             recipeById.length ?
             res.status(200).send(recipeById) :
-            res.status(404).send('ID inexistente.')
+            res.status(404).send('ID unavailable.')
        }
     } catch (error){
         next(error)
