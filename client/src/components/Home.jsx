@@ -53,13 +53,15 @@ export default function Home (){
                 Show all recipes
             </button>
             <div>
-                <select placeholder="Order by" onChange={e=>handleSort(e)}>
+                <select onChange={e=>handleSort(e)}>
+                    <option value="" selected disabled hidden>Order by</option>
                     <option value='az'>A-Z</option>
                     <option value='za'>Z-A</option>
                     <option value='hscore'>High Score</option>
                     <option value='lscore'>Low Score</option>
                 </select>
                 <select onChange={e=>handleFilterDiet(e)}>
+                    <option value="" selected disabled hidden>Diets</option>
                     <option value='all'>All</option>
                     <option value='gluten free'>Gluten Free</option>
                     <option value='ketogenic'>Ketogenic</option>

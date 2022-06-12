@@ -195,6 +195,7 @@ export default function RecipeCreate(){
                 </div>
                 <div>Type of Diet:
                 <select onChange={(e)=>handleSelect(e)}>
+                <option value="" selected disabled hidden>Choose here</option>
                     {diets.map((d)=>(
                         <option value={d.name}>{d.name.charAt(0).toUpperCase()+ d.name.slice(1)}</option>
                    ))}
@@ -205,6 +206,7 @@ export default function RecipeCreate(){
                 </div>
                 <div>Dish types:
                 <select onChange={(e)=>handleSelect2(e)}>
+                <option value="" selected disabled hidden>Choose here</option>
                     {dishTypes.map((d)=>(
                         <option value={d.name}>{d.name.charAt(0).toUpperCase()+ d.name.slice(1)}</option>
                    ))}
