@@ -26,6 +26,7 @@ return (
             <h4>Dish type: {theRecipe[0].dishTypes.toString().replace(/,/g,", ")}</h4>
             <h3>Likes: {theRecipe[0].aggregateLikes}</h3>
             <h3>Health score: {theRecipe[0].healthScore}</h3>
+            <p>Summary: {theRecipe[0].summary}</p>
             <p>Steps: {theRecipe[0].steps}</p>
         </div> : <p>Loading...</p> // MEDIO QUE NO ME ANDA ESTO
     }
