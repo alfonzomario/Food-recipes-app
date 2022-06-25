@@ -1,5 +1,5 @@
 
-import { GET_RECIPES, FILTER_BY_DIET, ORDER_BY_OPTION, GET_TITLE_RECIPES, POST_RECIPE, GET_DIETS, GET_DETAIL, GET_DISHES } from "../actions";
+import { GET_RECIPES, FILTER_BY_DIET, ORDER_BY_OPTION, GET_TITLE_RECIPES, POST_RECIPE, GET_DIETS, GET_DETAIL, GET_DISHES, CLEAR_DETAIL } from "../actions";
 
 const initialState = {
     recipes: [],
@@ -96,6 +96,11 @@ function rootReducer (state=initialState, action){
                 return{
                     ...state,
                     detail: action.payload
+                }
+            case CLEAR_DETAIL:
+                return{
+                    ...state,
+                    detail: []
                 }
     
             default:

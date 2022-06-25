@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import Recipe from './Recipe';
 import Paginado from './Paginado';
 import SearchBar from './SearchBar';
+import styles from './styles/Home.module.css'
 
 export default function Home (){
     const dispatch = useDispatch()
@@ -14,7 +15,7 @@ export default function Home (){
     const [order, setOrder]=useState('')
 
     const [currentPage, setCurrentPAge] = useState(1)
-    const [recipesPerPage, setRecipesPerPage] = useState(9) // QUÉ HAGO CON LOS QUE NO ESTÁN EN USO?
+    const [recipesPerPage] = useState(9)
     const indexOfLastRecipe = currentPage * recipesPerPage
     const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage
     const currentRecipes = allRecipes.slice(indexOfFirstRecipe,indexOfLastRecipe)
@@ -41,59 +42,65 @@ export default function Home (){
         e.preventDefault();
         dispatch(orderByOption(e.target.value))
         setCurrentPAge(1)
-        setOrder(`Ordered by ${e.target.value}`)
+        order === '' ? setOrder('setOrder') : setOrder('')
     }
-//                        ALGUNA FORMA MEJOR PARA PONER EL ORDER BY?
-//                        QUÉ ES LO QUE HACE QUE SE RENDERICE DE VUELTA AL CAMBIAR UN ESTADO?
+
     return(
-        <div>
-            <Link to='/recipe'>New recipe</Link>
-            <h1>BEST RECIPES EVER!</h1>
+        <div className={styles.background}>
+
+        <div className={styles.bigbox}>
+
+            <h1>MARITO'S RECIPES</h1>
+            <Link to='/recipe'><button className={styles.button}>New recipe</button></Link>
+            <SearchBar
+                    paginado={paginado}
+                />
             <button onClick={e=>{handleClick(e)}}>
                 Show all recipes
             </button>
-            <div>
-                <select onChange={e=>handleSort(e)}>
-                    <option value="" selected disabled hidden>Order by</option>
-                    <option value='az'>A-Z</option>
-                    <option value='za'>Z-A</option>
-                    <option value='hscore'>High Score</option>
-                    <option value='lscore'>Low Score</option>
-                </select>
-                <select onChange={e=>handleFilterDiet(e)}>
-                    <option value="" selected disabled hidden>Diets</option>
-                    <option value='all'>All</option>
-                    <option value='gluten free'>Gluten Free</option>
-                    <option value='ketogenic'>Ketogenic</option>
-                    <option value='lacto ovo vegetarian'>Vegetarian</option>
-                    <option value='vegan'>Vegan</option>
-                    <option value='pescatarian'>Pescetarian</option>
-                    <option value='paleolithic'>Paleo</option>
-                    <option value='primal'>Primal</option>
-                    <option value='whole 30'>Whole30</option>
-                    <option value='dairy free'>Dairy Free</option>
-                    <option value='fodmap friendly'>FODMAP Friendly</option>
-                </select>
-                <Paginado
-                    recipesPerPage={recipesPerPage}
-                    allRecipes={allRecipes.length}
-                    paginado={paginado}
-                />
-                <SearchBar
-                    paginado={paginado}
-                />
+                  <div>
+                        <select onChange={e=>handleSort(e)}>
+                            <option value="" selected disabled hidden>Order by</option>
+                            <option value='az'>A-Z</option>
+                            <option value='za'>Z-A</option>
+                            <option value='hscore'>High Score</option>
+                            <option value='lscore'>Low Score</option>
+                        </select>
+                        <select onChange={e=>handleFilterDiet(e)}>
+                            <option value="" selected disabled hidden>Diets</option>
+                            <option value='all'>All</option>
+                            <option value='Gluten free'>Gluten Free</option>
+                            <option value='Ketogenic'>Ketogenic</option>
+                            <option value='Lacto ovo vegetarian'>Vegetarian</option>
+                            <option value='Vegan'>Vegan</option>
+                            <option value='Pescatarian'>Pescetarian</option>
+                            <option value='Paleolithic'>Paleo</option>
+                            <option value='Primal'>Primal</option>
+                            <option value='Whole 30'>Whole30</option>
+                            <option value='Dairy free'>Dairy Free</option>
+                            <option value='Fodmap friendly'>FODMAP Friendly</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className={styles.recipes}>
                 { allRecipes==="unfinded"? <p>No existe esta receta.</p> :
                    currentRecipes?.map((r)=>{  // ese ?. qué hace?
                        return (
-                           <div>
-                               <Link to={"/home/" + r.id}>
+                           <div className={styles.recipe}>
+                               <Link className={styles.hipervinculo} to={"/home/" + r.id}>
                                <Recipe image={r.image} title={r.title} diets={r.diets} key={r.id}/>
                                </Link>
                            </div>
                        )
                    })
                 }
-            </div>
+                </div>
+                <Paginado
+                    recipesPerPage={recipesPerPage}
+                    allRecipes={allRecipes.length}
+                    paginado={paginado}
+                />
         </div>
     )
 }

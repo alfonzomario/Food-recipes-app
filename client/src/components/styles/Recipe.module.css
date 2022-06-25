@@ -1,0 +1,18 @@
+.box {
+    padding: 1rem 2rem 1rem 2rem;
+    max-width: 80%;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: black;
+    text-align: center; 
+    background-color: white;
+    border-radius: 30px;
+    min-height: 350px;
+}
+
+.image{
+    border-radius: 30px;
+    width: 312px;
+    height: 231px;
+}

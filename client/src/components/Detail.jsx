@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetail } from "../actions";
+import { getDetail, clearDetail } from "../actions";
 import { useEffect } from "react";
+import styles from './styles/Detail.module.css'
 
 export default function Detail(){
 const dispatch = useDispatch()
@@ -11,27 +12,34 @@ const {id} = useParams()
 
 useEffect(()=>{
     dispatch(getDetail(id))
-},[dispatch]) // QUÉ OCURRE EN EL SEGUNDO PARÁMETRO?
+    return(()=>{
+        dispatch(clearDetail())
+    })
+},[dispatch])
 
 const theRecipe = useSelector ((state)=>state.detail)
 
 return (
-   <div>
+   <div className={styles.background}>
     {
         theRecipe.length>0 ?
-        <div>
+    <div>
+        <div className={styles.box}>
+            <img className={styles.image} src={theRecipe[0].image} alt="img not found" width="312px" height="231px"/>
             <h1>{theRecipe[0].title}</h1>
-            <img src={theRecipe[0].image} alt="img not found" width="312px" height="231px"/>
+         <div className={styles.box2}>  
             <h4>Diets: {theRecipe[0].diets.toString().replace(/,/g,", ")}</h4>
             <h4>Dish type: {theRecipe[0].dishTypes.toString().replace(/,/g,", ")}</h4>
             <h3>Likes: {theRecipe[0].aggregateLikes}</h3>
             <h3>Health score: {theRecipe[0].healthScore}</h3>
-            <p>Summary: {theRecipe[0].summary}</p>
-            <p>Steps: {theRecipe[0].steps}</p>
-        </div> : <p>Loading...</p> // MEDIO QUE NO ME ANDA ESTO
+         </div> 
+        </div>    
+            <p className={styles.text}>Summary: {theRecipe[0].summary}</p>
+            <p className={styles.text}>Steps: {theRecipe[0].steps}</p>
+    </div> : <p className={styles.loading}>Loading...</p>
     }
     <Link to= '/home'>
-        <button>Back to home</button>
+        <button className={styles.button}>Back to home</button>
     </Link>
    </div> 
 )

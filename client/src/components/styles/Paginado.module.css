@@ -1,0 +1,27 @@
+.paginado{
+    padding: 10px 0px 20px 0px;
+}
+
+.paginacion{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.item{
+    margin-bottom: 0px;
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    font-size: 16px;
+    opacity: 0.7;
+    transition: 0.4s;
+    cursor: pointer;
+
+}
+
+.item:hover {
+    opacity: 1
+}

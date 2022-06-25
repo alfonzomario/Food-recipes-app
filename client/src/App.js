@@ -15,7 +15,7 @@ function App() {
         <Route exact path ='/recipe' component={RecipeCreate}/>
         <Route exact path ='/home/:id' component={Detail}/>
       </Switch>
-      <h1>Henry Food</h1>
+      <h4>Marito's Recipes © 2022 All rights reserved</h4>
     </div>
     </BrowserRouter>
   );

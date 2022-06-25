@@ -15,8 +15,8 @@ const getApiInfo = async () => {
             id: d.id,
             image: d.image,
             title: d.title,
-            dishTypes: d.dishTypes,
-            diets: d.diets,
+            dishTypes: d.dishTypes.map(dish=>dish.charAt(0).toUpperCase()+ dish.slice(1)),
+            diets: d.diets.map(diet=>diet.charAt(0).toUpperCase()+ diet.slice(1)),
             summary: d.summary.replace(/<\/?.*?>/g, ""), //https://programmerclick.com/article/8344579458/
             aggregateLikes: d.aggregateLikes,
             healthScore: d.healthScore,
@@ -35,10 +35,10 @@ const getDbInfo = async () => {
         {
             model: Dish,
             attributes: ['name']
-        }
-        ]
+        }]
     });
     const finalDb = db.map(d => {
+        // const {id, title, disTypes, diets, summary, aggregateLikes, healthScore, steps, image} = d --> ECMAScript6
         return {
             id: d.id,
             title: d.title,

@@ -8,12 +8,13 @@ export const GET_DIETS = 'GET_DIETS'
 export const POST_RECIPE = 'POST_RECIPE'
 export const GET_DETAIL = 'GET_DETAIL'
 export const GET_DISHES = 'GET_DISHES'
+export const CLEAR_DETAIL = 'CLEAR_DETAIL'
 
 export function getRecipes(){
     return async function(dispatch){
         var json = await axios.get("http://localhost:3001/food/recipes");
         return dispatch({
-            type: 'GET_RECIPES',
+            type: GET_RECIPES,
             payload: json.data
         })
     }
@@ -23,7 +24,7 @@ export function getTitleRecipes(title){
         try{
             var json = await axios.get("http://localhost:3001/food/recipes?name="+title);
             return dispatch({
-                type: 'GET_TITLE_RECIPES',
+                type: GET_TITLE_RECIPES,
                 payload: json.data
             })
         } catch (error){
@@ -35,7 +36,7 @@ export function getDiets(){
     return async function (dispatch) {
         var json = await axios.get("http://localhost:3001/food/types")
         return dispatch({
-            type: 'GET_DIETS',
+            type: GET_DIETS,
             payload: json.data
         })
     }
@@ -44,7 +45,7 @@ export function getDishes(){
     return async function (dispatch) {
         var json = await axios.get("http://localhost:3001/food/dishes")
         return dispatch({
-            type: 'GET_DISHES',
+            type: GET_DISHES,
             payload: json.data
         })
     }
@@ -57,13 +58,13 @@ export function postRecipe(payload){
 }
 export function filterRecipesByDiet(payload){
     return {
-        type: 'FILTER_BY_DIET',
+        type: FILTER_BY_DIET,
         payload
     }
 }
 export function orderByOption(payload){
     return {
-        type: 'ORDER_BY_OPTION',
+        type: ORDER_BY_OPTION,
         payload
     }
 }
@@ -72,11 +73,16 @@ export function getDetail(id){
         try{
             var json = await axios.get("http://localhost:3001/food/recipes/"+id);
             return dispatch({
-                type: 'GET_DETAIL',
+                type: GET_DETAIL,
                 payload: json.data
             })
         } catch(error){
             console.log(error)
         }
     } 
+}
+export function clearDetail(){
+    return {
+        type: CLEAR_DETAIL,
+    }
 }

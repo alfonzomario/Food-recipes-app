@@ -1,0 +1,51 @@
+.background {
+    background-image: url("https://static.vecteezy.com/system/resources/previews/002/129/263/non_2x/abstract-white-background-with-elements-of-useful-food-vector.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loading {
+    background-color: white;
+    padding: 2rem;
+  }
+
+  .box {
+    background-color: rgba(255, 255, 255, 0.933);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 50px;
+  }
+
+  .box2 {
+    display: grid;
+  }
+
+  .text {
+    color: white;
+    display: grid;
+    background-color: rgba(0, 0, 0, 0.856);
+    margin: 1rem 2rem;
+    padding: 2rem;
+    border-radius: 50px;
+    grid-column-gap: 10px;
+    column-gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 10px;
+  }
+
+  .image {
+    border-radius: 50px;
+  }
+
+  .button {
+    color: white;
+    background: rgb(68, 68, 68);
+    border: cover solid white;
+    border-radius: 6px;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
