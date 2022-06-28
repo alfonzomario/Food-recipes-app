@@ -18,6 +18,8 @@ function validate(input){
         errors.steps = "Steps are required.";
     } else if (!input.image){
         errors.image = "A image's URL is required.";
+    } else if (!/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!]))?/.test(input.image)){
+        errors.image = "You need a validate URL.";
     } else if (!input.diets[0]){
         errors.diets = "Types of diets are required.";
     } else if (!input.dishTypes[0]){
@@ -27,7 +29,6 @@ function validate(input){
 };
 export default function RecipeCreate(){
     const dispatch = useDispatch()
-    const history = useHistory()
     const diets = useSelector((state)=>state.diets)
     const dishTypes = useSelector((state)=>state.dishTypes)
     const [errors, setErrors] = useState({})

@@ -28,7 +28,7 @@ export function getTitleRecipes(title){
                 payload: json.data
             })
         } catch (error){
-            console.log(error)  // POR QUÉ EN ALGUNOS CASOS ME PIDE HACER CATCH ERROR?
+            console.log(error)  
         }
     }
 }

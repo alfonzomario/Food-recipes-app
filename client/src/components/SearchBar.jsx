@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getTitleRecipes } from '../actions';
 
 export default function SearchBar({paginado}){
-const dispatch = useDispatch() // para qué es
+const dispatch = useDispatch() 
 const [title, setTitle] = useState("")
 
 function handleInputChange(e){

@@ -85,7 +85,7 @@ export default function Home (){
 
                 <div className={styles.recipes}>
                 { allRecipes==="unfinded"? <p>No existe esta receta.</p> :
-                   currentRecipes?.map((r)=>{  // ese ?. qué hace?
+                   currentRecipes?.map((r)=>{  
                        return (
                            <div className={styles.recipe}>
                                <Link className={styles.hipervinculo} to={"/home/" + r.id}>
