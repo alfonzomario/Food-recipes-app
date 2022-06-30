@@ -90,7 +90,7 @@ function rootReducer (state=initialState, action){
                 })
             }
             return{
-                ...state,  // retorna el estado ya modificado por el sort?
+                ...state,
             }
             case GET_DETAIL:
                 return{

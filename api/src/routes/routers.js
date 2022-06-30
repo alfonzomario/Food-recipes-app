@@ -69,7 +69,7 @@ router.get('/recipes', async (req, res, next)=>{
             let recipeTitle = await totalRecipes.filter(t => t.title.toLowerCase().includes(title.toLowerCase()))
             recipeTitle.length ?
             res.status(200).send(recipeTitle) :
-             res.status(200).send('unfinded')
+             res.status(404).send('unfinded')
      } 
      else{
         res.status(200).send(totalRecipes)

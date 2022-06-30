@@ -60,14 +60,14 @@ export default function Home (){
             </button>
                   <div>
                         <select onChange={e=>handleSort(e)}>
-                            <option value="" selected disabled hidden>Order by</option>
+                            <option value="default" hidden>Order by</option>
                             <option value='az'>A-Z</option>
                             <option value='za'>Z-A</option>
                             <option value='hscore'>High Score</option>
                             <option value='lscore'>Low Score</option>
                         </select>
                         <select onChange={e=>handleFilterDiet(e)}>
-                            <option value="" selected disabled hidden>Diets</option>
+                            <option value="default" hidden>Diets</option>
                             <option value='all'>All</option>
                             <option value='Gluten free'>Gluten Free</option>
                             <option value='Ketogenic'>Ketogenic</option>
@@ -84,12 +84,12 @@ export default function Home (){
                 </div>
 
                 <div className={styles.recipes}>
-                { allRecipes==="unfinded"? <p>No existe esta receta.</p> :
+                { allRecipes==="unfinded"? <h2 className={styles.error}>No existe esta receta.</h2> :
                    currentRecipes?.map((r)=>{  
                        return (
-                           <div className={styles.recipe}>
+                           <div className={styles.recipe} key={r.id}>
                                <Link className={styles.hipervinculo} to={"/home/" + r.id}>
-                               <Recipe image={r.image} title={r.title} diets={r.diets} key={r.id}/>
+                               <Recipe image={r.image} title={r.title} diets={r.diets}/>
                                </Link>
                            </div>
                        )

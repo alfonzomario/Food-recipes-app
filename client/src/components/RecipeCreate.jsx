@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {postRecipe, getDiets, getDishes} from '../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles/Create.module.css'
@@ -12,6 +12,8 @@ function validate(input){
         errors.summary = "A summary is required.";
     } else if (!input.aggregateLikes){
         errors.aggregateLikes = "A minimun of likes are required.";
+    } else if (input.aggregateLikes < 0){
+        errors.aggregateLikes = "Negative number is not allowed";
     } else if (!input.healthScore){
         errors.healthScore = "A health score is required.";
     } else if (!input.steps){
@@ -127,13 +129,13 @@ export default function RecipeCreate(){
         <div className={styles.background}>
             <div className={styles.box2}>
             {input.diets.map(d=>
-                <div>
+                <div key={d}>
                     <p>{d}</p>
                     <button className={styles.buttonX} onClick={()=>handleDelete(d)}>x</button>
                 </div>
                 )}
             {input.dishTypes.map(d=>
-                <div>
+                <div key={d}>
                     <p>{d}</p>
                     <button className={styles.buttonX} onClick={()=>handleDelete2(d)}>x</button>
                 </div>
@@ -223,7 +225,7 @@ export default function RecipeCreate(){
                 <select onChange={(e)=>handleSelect(e)}>
                 <option value="" selected disabled hidden>Choose here</option>
                     {diets.map((d)=>(
-                        <option value={d.name}>{d.name}</option>
+                        <option key={d.name} value={d.name}>{d.name}</option>
                    ))}
                 </select>
                     {errors.diets && (
@@ -234,7 +236,7 @@ export default function RecipeCreate(){
                 <select onChange={(e)=>handleSelect2(e)}>
                 <option value="" selected disabled hidden>Choose here</option>
                     {dishTypes.map((d)=>(
-                        <option value={d.name}>{d.name}</option>
+                        <option key={d.name} value={d.name}>{d.name}</option>
                    ))}
                 </select>
                     {errors.dishTypes && (

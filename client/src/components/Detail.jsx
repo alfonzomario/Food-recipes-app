@@ -15,7 +15,7 @@ useEffect(()=>{
     return(()=>{
         dispatch(clearDetail())
     })
-},[dispatch])
+},[dispatch, id])
 
 const theRecipe = useSelector ((state)=>state.detail)
 

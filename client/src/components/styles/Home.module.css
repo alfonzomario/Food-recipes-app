@@ -53,3 +53,8 @@
     border-radius: 30px;
     padding: 30px;
 }
+
+.error {
+    color: white;
+    font-size: bold;
+}

@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 export const GET_RECIPES = 'GET_RECIPES'
 export const FILTER_BY_DIET = 'FILTER_BY_DIET'
 export const ORDER_BY_OPTION = 'ORDER_BY_OPTION'
@@ -28,8 +27,8 @@ export function getTitleRecipes(title){
                 payload: json.data
             })
         } catch (error){
-            console.log(error)  
-        }
+            dispatch({ type: GET_TITLE_RECIPES, payload: error.response.data });
+          }
     }
 }
 export function getDiets(){
@@ -69,18 +68,24 @@ export function orderByOption(payload){
     }
 }
 export function getDetail(id){
-    return async function (dispatch){
-        try{
-            var json = await axios.get("http://localhost:3001/food/recipes/"+id);
-            return dispatch({
-                type: GET_DETAIL,
-                payload: json.data
-            })
-        } catch(error){
-            console.log(error)
-        }
-    } 
-}
+    //return async function (dispatch){
+        // try{
+        //     var json = await axios.get("http://localhost:3001/food/recipes/"+id);
+        //     return dispatch({
+        //         type: GET_DETAIL,
+        //         payload: json.data
+        //     })
+        // } catch(error){
+        //     console.log(error)
+        // }
+            return (dispatch) => {
+                axios.get(`http://localhost:3001/food/recipes/${id}`)
+                .then((res) => dispatch({ type: GET_DETAIL, payload: res.data }))
+                .catch((error) => console.log(error))
+            }
+          }
+//    } 
+//}
 export function clearDetail(){
     return {
         type: CLEAR_DETAIL,
